@@ -105,7 +105,7 @@ public class Percolation {
     }
 
     public static void main(String[] args) throws Exception {
-        File inputFile = new File("C:/Users/Amlandeep Bhadra/Princeton-algorithms/percolation/greeting57.txt");
+        File inputFile = new File("../Princeton-algorithms/percolation/greeting57.txt");
         Scanner input = new Scanner(inputFile);
         int size = input.nextInt();
         Percolation perc = new Percolation(size);
