@@ -2,18 +2,26 @@
 import edu.princeton.cs.algs4.StdRandom;
 import edu.princeton.cs.algs4.StdStats;
 
+import java.util.ArrayList;
+import java.util.List;
+
+class Pair {
+    int i;
+    int j;
+    Pair(int i, int j) { this.i = i; this.j =j; }
+}
+
 public class PercolationStats {
     private double stddev;
     private double mean;
     private double confidenceFactor;
 
     public PercolationStats(int n, int trials) {
-        double[] results = new double[n];
+        double[] results = new double[trials];
         // perform trials
         for(int i =0; i < trials; i++) {
             results[i] = doTrial(n);
         }
-        System.out.println("Here! trials done!");
         this.mean = StdStats.mean(results);
         this.stddev = StdStats.stddev(results);
         this.confidenceFactor = (1.96 * this.stddev) / Math.sqrt(trials);
@@ -22,21 +30,24 @@ public class PercolationStats {
     private double doTrial(int n) {
         // All hail Java garbage collector
         Percolation percolationStructure = new Percolation(n);
+        List<Pair> openSlots = new ArrayList<>();
+        for(int i = 1; i <= n; i++) {
+            for(int j = 1; j <= n; j++) {
+                openSlots.add(new Pair(i, j));
+            }
+        }
         while(!percolationStructure.percolates()) {
-            System.out.println(percolationStructure.percolates());
-            int i = (int) (1 + (StdRandom.uniform() * (n - 1)));
-            int j = (int) (1 + (StdRandom.uniform() * (n - 1)));
+            int randomOpenPair = (int) (StdRandom.uniform() * openSlots.size());
             try {
-                if(!percolationStructure.isOpen(i, j)){
-                    percolationStructure.open(i,j);
-                }
+                percolationStructure.open(openSlots.get(randomOpenPair).i, openSlots.get(randomOpenPair).j);
+                openSlots.remove(randomOpenPair);
             }
             catch (Exception e) {
                 System.out.println(e.getMessage());
                 e.printStackTrace();
             }
         }
-        return percolationStructure.numberOfOpenSites()/ (n*n);
+        return (double) percolationStructure.numberOfOpenSites()/ (double)(n*n);
     }
 
     public double mean() {
@@ -56,10 +67,9 @@ public class PercolationStats {
     }
 
     public static void main(String[] args) {
-        int n = 200;//Integer.parseInt(args[0]);
+        int n = 100;//Integer.parseInt(args[0]);
         int trials = 100;//Integer.parseInt(args[1]);
         PercolationStats perc = new PercolationStats(n, trials);
-        System.out.println("completed!");
         System.out.println("mean                    = " + perc.mean());
         System.out.println("stddev                  = " + perc.stddev());
         System.out.println("95% confidence interval = " + "[" + perc.confidenceLo() +", " + perc.confidenceHi() +"]");
