@@ -1,8 +1,11 @@
-/**
- * Created by Amlandeep Bhadra on 4/23/2017.
+/*
+ * percolation class
  */
 
 import edu.princeton.cs.algs4.WeightedQuickUnionUF;
+
+import java.io.File;
+import java.util.Scanner;
 
 public class Percolation {
 
@@ -51,13 +54,14 @@ public class Percolation {
             }
             //left
             if (col > 1) {
-                if (isOpen(row, col)) {
+                if (isOpen(row, col - 1)) {
                     int topIndex = (row - 1) * this.rowNum + (col - 2);
                     unionFindStructure.union(topIndex, currentIndex);
                 }
             }
+            //right
             if (col < this.rowNum) {
-                if (isOpen(row, col)) {
+                if (isOpen(row, col + 1)) {
                     int topIndex = (row - 1) * this.rowNum + col;
                     unionFindStructure.union(topIndex, currentIndex);
                 }
@@ -100,6 +104,16 @@ public class Percolation {
         return this.percolates;
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception {
+        File inputFile = new File("C:/Users/Amlandeep Bhadra/Princeton-algorithms/percolation/greeting57.txt");
+        Scanner input = new Scanner(inputFile);
+        int size = input.nextInt();
+        Percolation perc = new Percolation(size);
+        while(input.hasNextInt()){
+            int x = input.nextInt();
+            int y = input.nextInt();
+            perc.open(x, y);
+        }
+        System.out.println(perc.percolates()? "Percolates" : "does not Percolate");
     }
 }
