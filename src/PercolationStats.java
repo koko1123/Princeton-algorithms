@@ -1,4 +1,3 @@
-
 import edu.princeton.cs.algs4.StdRandom;
 import edu.princeton.cs.algs4.StdStats;
 
@@ -72,6 +71,9 @@ public class PercolationStats {
     public static void main(String[] args) {
         int n = Integer.parseInt(args[0]);
         int trials = Integer.parseInt(args[1]);
+        if(n < 1 || trials < 1) {
+            throw new IllegalArgumentException(n +", " + trials);
+        }
         PercolationStats perc = new PercolationStats(n, trials);
         System.out.println("mean                    = " + perc.mean());
         System.out.println("stddev                  = " + perc.stddev());

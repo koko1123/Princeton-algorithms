@@ -1,11 +1,4 @@
-/*
- * percolation class
- */
-
 import edu.princeton.cs.algs4.WeightedQuickUnionUF;
-
-import java.io.File;
-import java.util.Scanner;
 
 public class Percolation {
 
@@ -17,8 +10,11 @@ public class Percolation {
     private int virtualTop;
 
     public Percolation(int n) {
+        if(n < 1) {
+            throw new IllegalArgumentException("invalid n");
+        }
         this.rowNum = n;
-        this.virtualTop = n * n; //index of the virtual top for UnionFind, virtualTop + 1 represents bottom index
+        this.virtualTop = n * n; // index of the virtual top for UnionFind, virtualTop + 1 represents bottom index
         this.grid = new boolean[n][n];
         this.openSites = 0;
         this.percolates = false;
@@ -37,7 +33,7 @@ public class Percolation {
             if (row == 1) {
                 unionFindStructure.union(currentIndex, this.virtualTop);
             }
-            //check surroundings
+            // check surroundings
             // check top
             if (row > 1) {
                 if (isOpen(row - 1, col)) {
@@ -45,28 +41,28 @@ public class Percolation {
                     unionFindStructure.union(topIndex, currentIndex);
                 }
             }
-            //bottom
+            // bottom
             if (row < this.rowNum) {
                 if (isOpen(row + 1, col)) {
                     int topIndex = row * this.rowNum + (col - 1);
                     unionFindStructure.union(topIndex, currentIndex);
                 }
             }
-            //left
+            // left
             if (col > 1) {
                 if (isOpen(row, col - 1)) {
                     int topIndex = (row - 1) * this.rowNum + (col - 2);
                     unionFindStructure.union(topIndex, currentIndex);
                 }
             }
-            //right
+            // right
             if (col < this.rowNum) {
                 if (isOpen(row, col + 1)) {
                     int topIndex = (row - 1) * this.rowNum + col;
                     unionFindStructure.union(topIndex, currentIndex);
                 }
             }
-            //check if adjacent units are open and connect them
+            // check if adjacent units are open and connect them
             if (unionFindStructure.connected(currentIndex, this.virtualTop) &&
                     unionFindStructure.connected(currentIndex, virtualTop + 1)) {
                 //this newly opened unit is connected to both top and bottom
@@ -83,15 +79,15 @@ public class Percolation {
                 row < 0 || col < 0) {
             throw new IndexOutOfBoundsException(row + ", " + col);
         }
-        //adjust to 0-based index
+        // adjust to 0-based index
         return this.grid[row - 1][col - 1];
     }
 
     public boolean isFull(int row, int col) throws Exception {
         if (isOpen(row, col)) {
-            //convert to our UF notation
-            int UnionIndex = (row - 1) * this.rowNum + (col - 1);
-            return unionFindStructure.connected(UnionIndex, this.virtualTop);
+            // convert to our UF notation
+            int unionIndex = (row - 1) * this.rowNum + (col - 1);
+            return unionFindStructure.connected(unionIndex, this.virtualTop);
         }
         return false;
     }
@@ -105,15 +101,5 @@ public class Percolation {
     }
 
     public static void main(String[] args) throws Exception {
-        File inputFile = new File("../Princeton-algorithms/percolation/greeting57.txt");
-        Scanner input = new Scanner(inputFile);
-        int size = input.nextInt();
-        Percolation perc = new Percolation(size);
-        while (input.hasNextInt()) {
-            int x = input.nextInt();
-            int y = input.nextInt();
-            perc.open(x, y);
-        }
-        System.out.println(perc.percolates() ? "Percolates" : "does not Percolate");
     }
 }
