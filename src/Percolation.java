@@ -109,11 +109,11 @@ public class Percolation {
         Scanner input = new Scanner(inputFile);
         int size = input.nextInt();
         Percolation perc = new Percolation(size);
-        while(input.hasNextInt()){
+        while (input.hasNextInt()) {
             int x = input.nextInt();
             int y = input.nextInt();
             perc.open(x, y);
         }
-        System.out.println(perc.percolates()? "Percolates" : "does not Percolate");
+        System.out.println(perc.percolates() ? "Percolates" : "does not Percolate");
     }
 }
