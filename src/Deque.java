@@ -1,25 +1,67 @@
 import java.util.Iterator;
 
 public class Deque<Item> implements Iterable<Item> {
-    public Deque() {
+    class Element<Item> {
+        Element<Item> next;
+        Element<Item> previous;
+        Item value;
+        Element(Item value) {
+            this.value = value;
+            this.next = null;
+            this.previous = null;
+        }
+    }
 
+    private Element<Item> firstElement;
+    private Element<Item> lastElement;
+    private int size;
+
+    public Deque() {
+        this.firstElement = null;
+        this.lastElement = null;
+        this.size = 0;
     }                           // construct an empty deque
     public boolean isEmpty() {
-        return true;
+        return this.size == 0;
     }               // is the deque empty?
     public int size() {
-        return 0;
+        return this.size();
     }                       // return the number of items on the deque
     public void addFirst(Item item) {
-
+        Element<Item> newElement = new Element<>(item);
+        if(!isEmpty()) {
+            this.firstElement.previous = newElement;
+            newElement.next = this.firstElement;
+        }
+        else {
+            this.lastElement = newElement;
+        }
+        this.firstElement = newElement;
+        this.size += 1;
     }         // add the item to the front
-    public void addLast(Item item) {
 
+
+    public void addLast(Item item) {
+        Element<Item> newElement = new Element<>(item);
+        if(!isEmpty()) {
+            this.lastElement.next = newElement;
+            newElement.previous = this.lastElement;
+        }
+        else {
+            this.firstElement = newElement;
+        }
+        this.lastElement = newElement;
+        this.size += 1;
     }          // add the item to the end
+
     public Item removeFirst() {
+
+        this.size -= 1;
         return null;
     }                // remove and return the item from the front
     public Item removeLast() {
+
+        this.size -= 1;
         return null;
     }                // remove and return the item from the end
     public Iterator<Item> iterator() {
