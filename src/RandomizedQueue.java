@@ -1,6 +1,8 @@
 import java.util.Iterator;
 
 public class RandomizedQueue<Item> implements Iterable<Item> {
+    private Item[] queue;
+
     public RandomizedQueue() {
 
     }                // construct an empty randomized queue
