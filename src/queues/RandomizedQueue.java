@@ -1,3 +1,5 @@
+package queues;
+
 import java.util.Iterator;
 
 public class RandomizedQueue<Item> implements Iterable<Item> {

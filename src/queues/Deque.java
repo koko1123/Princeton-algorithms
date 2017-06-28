@@ -1,3 +1,7 @@
+package queues;
+
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
@@ -59,7 +63,7 @@ public class Deque<Item> implements Iterable<Item> {
 
     public Item removeFirst() {
         if (isEmpty()) {
-            throw new NoSuchElementException("Empty Deque");
+            throw new NoSuchElementException("Empty queues.Deque");
         }
         this.size -= 1;
         return null;
@@ -67,7 +71,7 @@ public class Deque<Item> implements Iterable<Item> {
 
     public Item removeLast() {
         if (isEmpty()) {
-            throw new NoSuchElementException("Empty Deque");
+            throw new NoSuchElementException("Empty queues.Deque");
         }
         this.size -= 1;
         return null;
